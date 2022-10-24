@@ -1,0 +1,106 @@
+     1	import unittest
+     2	import pandas as pd
+     3	
+     4	class BookLover:
+     5	    num_books = 0
+     6	    book_list = pd.DataFrame({'book_name':[], 'book_rating':[]})
+     7	    
+     8	    def __init__(self, name, email, fav_genre):
+     9	        self.name = name
+    10	        self.email = email
+    11	        self.fav_genre = fav_genre
+    12	        #self.num_books = num_books
+    13	        #self.book_list = book_list
+    14	        
+    15	    def add_book(self, book_name, rating):
+    16	        if book_name not in self.book_list['book_name'].unique():
+    17	            new_book = pd.DataFrame({'book_name': [book_name],
+    18	                                     'book_rating': [rating]
+    19	                                    })
+    20	            self.book_list = pd.concat([self.book_list, new_book],
+    21	                                       ignore_index=True)
+    22	        else:
+    23	            print('This book has already been added to the list.')
+    24	            
+    25	    def has_read(self, book_name):
+    26	        if book_name not in self.book_list['book_name'].unique():
+    27	            return False
+    28	        else:
+    29	            return True
+    30	        
+    31	    def num_books_read(self):
+    32	        return len(self.book_list.index)
+    33	    
+    34	    def fav_books(self):
+    35	        return self.book_list[self.book_list.book_rating >3]import unittest
+    36	import pandas as pd
+    37	from booklover import BookLover
+    38	
+    39	class BookLoverTestSuite(unittest.TestCase):
+    40	    
+    41	    def test_1_add_book(self):
+    42	        Book1 = BookLover('Matt', 'mcs9ff@virginia.edu', 'Fantasy')
+    43	        Book1.add_book('Return of the King', 5)
+    44	        actual = Book1.book_list.to_dict()
+    45	        expected = {'book_name':{0: 'Return of the King'}, 'book_rating':{0: 5}}
+    46	        self.assertEqual(actual, expected)
+    47	        
+    48	    def test_2_add_book(self):
+    49	        Book2 = BookLover('Joe', 'joe@virginia.edu', 'Romance')
+    50	        Book2.add_book('Return of the King', 5)
+    51	        Book2.add_book('Return of the King', 5)
+    52	        actual = Book2.book_list.to_dict()
+    53	        expected  = {'book_name':{0: 'Return of the King'}, 'book_rating':{0: 5}}
+    54	        self.assertEqual(actual, expected)
+    55	        
+    56	    def test_3_has_read(self):
+    57	        Book3 = BookLover('Bob', 'bob@virginia.edu', 'History')
+    58	        Book3.add_book('Return of the King', 5)
+    59	        actual = Book3.has_read('Return of the King')
+    60	        expected = True
+    61	        self.assertEqual(actual, expected)
+    62	    
+    63	    def test_4_has_read(self):
+    64	        Book4 = BookLover('Amy', 'amy@virginia.edu', 'Comics')
+    65	        expression = Book4.has_read('Lord of the Flies')
+    66	        self.assertFalse(expression)
+    67	        
+    68	    def test_5_num_books_read(self):
+    69	        Book5 = BookLover('Meg', 'meg@virginia.edu', 'SciFi')
+    70	        Book5.add_book('Catcher in the Rye', 5)
+    71	        Book5.add_book('The Odyssey', 4)
+    72	        Book5.add_book('Moby Dick', 4)
+    73	        Book5.add_book('The Old Man and the Sea', 2)
+    74	        actual = Book5.num_books_read()
+    75	        expected = 4
+    76	        self.assertEqual(actual, expected)
+    77	        
+    78	    def test_6_fav_books(self):
+    79	        Book6 = BookLover('Kate', 'kate@virginia.edu', 'NonFiction')
+    80	        Book6.add_book('Return of the King', 5)
+    81	        Book6.add_book('The Odyssey', 4)
+    82	        Book6.add_book('Moby Dick', 4)
+    83	        Book6.add_book('The Old Man and the Sea', 2)
+    84	        
+    85	        fave_df = Book6.fav_books()
+    86	        actual = fave_df[fave_df.book_rating > 3].to_dict()
+    87	        expected = {'book_name':{0: 'Return of the King', 1: 'The Odyssey', 2: 'Moby Dick'},
+    88	                    'book_rating':{0: 5, 1: 4, 2: 4}}
+    89	        self.assertEqual(actual, expected)
+    90	        
+    91	if __name__ == '__main__':
+    92	    unittest.main(verbosity=3)test_1_add_book (__main__.BookLoverTestSuite) ... /sfs/qumulo/qhome/mcs9ff/DS5100-2022-08-mcs9ff/booklover.py:16: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+    93	  if book_name not in self.book_list['book_name'].unique():
+    94	ok
+    95	test_2_add_book (__main__.BookLoverTestSuite) ... ok
+    96	test_3_has_read (__main__.BookLoverTestSuite) ... ok
+    97	test_4_has_read (__main__.BookLoverTestSuite) ... /sfs/qumulo/qhome/mcs9ff/DS5100-2022-08-mcs9ff/booklover.py:26: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+    98	  if book_name not in self.book_list['book_name'].unique():
+    99	ok
+   100	test_5_num_books_read (__main__.BookLoverTestSuite) ... ok
+   101	test_6_fav_books (__main__.BookLoverTestSuite) ... ok
+   102	
+   103	----------------------------------------------------------------------
+   104	Ran 6 tests in 0.022s
+   105	
+   106	OK
