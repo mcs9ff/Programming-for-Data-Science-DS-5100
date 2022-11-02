@@ -1,0 +1,140 @@
+---
+title: "DS 5100 Module 10 Participation"
+author: "Matt Scheffel"
+date: "2022-11-01"
+output: html_document
+---
+
+# 10.1
+
+```{r}
+Fibonacci <- numeric(10)
+Fibonacci[1] <- Fibonacci[2] <- 1
+for (i in 3:10) {
+  Fibonacci[i] <- Fibonacci[i - 2] + Fibonacci[i - 1]
+}
+print(Fibonacci)
+```
+
+# 10.2
+
+```{r}
+Fibonacci <- function(n=10) {
+  Fibonacci <- numeric(n)
+  Fibonacci[1] <- Fibonacci[2] <- 1
+  for (i in 3:n) {
+      Fibonacci[i] <- Fibonacci[i - 2] + Fibonacci[i - 1]
+  }
+  return(Fibonacci)
+}
+
+fib20 = Fibonacci(20)
+
+class(fib20)
+
+print(fib20)
+```
+
+# 10.3
+
+```{r}
+in_unit_interval <-function(x) {
+  if (x>=0 && x <=1) {
+    return(1)
+  }
+  else {
+    return(0)
+  }
+}
+```
+
+# 10.4
+
+```{r}
+in_unit_interval(-1)
+in_unit_interval(0)
+in_unit_interval(0.5)
+in_unit_interval(1)
+in_unit_interval(2)
+```
+
+# 10.5
+
+```{r}
+print("First 10 letters in lower case:")
+t = head(letters, 10)
+print(t)
+
+print("Last 10 letters in upper case:")
+t = tail(LETTERS, 10)
+print(t)
+
+print("Letters between 22 to 24 in upper case:")
+e = LETTERS[22:24]
+print(e)
+```
+
+# 10.6
+
+```{r}
+for (n in 1:100) {
+  a <- b <- ''
+  if (n %% 3 == 0) {
+    a <- "Fizz"
+  }
+  if (n %% 5 == 0) {
+    b <- "Buzz"
+  }
+  print(paste(n, ' ', a, b, sep=''))
+}
+```
+
+# 10.7
+
+```{r}
+str1 <- "The quick brown fox jumps over the lazy dog."
+sv1 <- unlist(strsplit(tolower(str1), ' '))
+sv1
+unique(sv1)
+```
+
+# 10.8
+
+```{r}
+nums = c(10,20,30,40,50,60)
+print('orgiinal vector')
+print(nums)
+print(paste("Max value:", max(nums)))
+print(paste("minimum value:",min(nums)))
+```
+
+# 10.9
+
+```{r}
+print("sequence 20 to 50:")
+print(seq(20,50))
+print("mean 20 to 60:")
+print(mean(20:60))
+print("sum 51 to 91:")
+print(sum(51:91))
+```
+
+# 10.10
+
+```{r}
+name = c('Matt', 'Emily')
+score = c(100,101)
+attempts =c(2,1)
+qualify = c('yes', 'no')
+
+print(name)
+print(score)
+print(attempts)
+print(qualify)
+```
+
+```{r}
+df = data.frame(name,score,attempts,qualify)
+df
+```
+
